@@ -62,37 +62,32 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                     {
                         if (index.Count == 1)
                             break;
-                        if (ch == 'C')
+                        switch(ch)
                         {
-                            FindMaxIndex(carbs, index);
-                        }
-                        else if (ch == 'c')
-                        {
-                            FindMinIndex(carbs, index);
-                        }
-                        else if (ch == 'P')
-                        {
-                            FindMaxIndex(protein, index);
-                        }
-                        else if (ch == 'p')
-                        {
-                            FindMinIndex(protein, index);
-                        }
-                        else if (ch == 'F')
-                        {
-                            FindMaxIndex(fat, index);
-                        }
-                        else if (ch == 'f')
-                        {
-                            FindMinIndex(fat, index);
-                        }
-                        else if (ch == 'T')
-                        {
-                            FindMaxIndex(calorie, index);
-                        }
-                        else if (ch == 't')
-                        {
-                            FindMinIndex(calorie, index);
+                            case 'C':
+                                FindIndex(carbs, index,"max");
+                                break;
+                            case 'c':
+                                FindIndex(carbs, index,"min");
+                                break;
+                            case 'P':
+                                FindIndex(protein, index,"max");
+                                break;
+                            case 'p':
+                                FindIndex(protein, index,"min");
+                                break;
+                            case 'F':
+                                FindIndex(fat, index,"max");
+                                break;
+                            case 'f':
+                                FindIndex(fat, index,"min");
+                                break;
+                            case 'T':
+                                FindIndex(calorie, index,"max");
+                                break;
+                            case 't':
+                                FindIndex(calorie, index,"min");
+                                break;
                         }
                     }
                 }
@@ -104,23 +99,31 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             return diet;
         }
 
-        private static void FindMinIndex(int[] arr, List<int> index)
+        private static void FindIndex(int[] arr, List<int> index,string typeOfIndex)
         {
             var list = new List<int>();
-            var minValue = int.MaxValue;
+            int value;
+            if(typeOfIndex.Equals("min"))
+            {
+                value = int.MaxValue;
+            }
+            else
+            {
+                value = int.MinValue;
+            }
             if(index.Count==0)
             {
                 list.Clear();
                 for(int i=0;i<arr.Length;i++)
                 {
-                    if(minValue==arr[i])
+                    if(value == arr[i])
                     {
                         list.Add(i);
                     }
-                    if(minValue>arr[i])
+                    if(CheckValue(value, arr[i], typeOfIndex))
                     {
                         list.Clear();
-                        minValue = arr[i];
+                        value = arr[i];
                         list.Add(i);
                     }
                 }
@@ -130,14 +133,14 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                 list.Clear();
                 foreach(var i in index)
                 {
-                    if (minValue == arr[i])
+                    if (value == arr[i])
                     {
                         list.Add(i);
                     }
-                    if (minValue > arr[i])
+                    if (CheckValue(value,arr[i],typeOfIndex))
                     {
                         list.Clear();
-                        minValue = arr[i];
+                        value = arr[i];
                         list.Add(i);
                     }
                 }
@@ -146,47 +149,23 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             for (int i = 0; i < list.Count; i++)
                 index.Add(list[i]);
         }
-        private static void FindMaxIndex(int[] arr, List<int> index)
+        
+        private static bool CheckValue(int value1,int value2,string operation)
         {
-            var list = new List<int>();
-            var maxValue = int.MinValue;
-            if (index.Count == 0)
+            if(operation.Equals("min"))
             {
-                list.Clear();
-                for (int i = 0; i < arr.Length; i++)
-                {
-                    if (maxValue == arr[i])
-                    {
-                        list.Add(i);
-                    }
-                    if (maxValue < arr[i])
-                    {
-                        list.Clear();
-                        maxValue = arr[i];
-                        list.Add(i);
-                    }
-                }
+                if (value1 > value2)
+                    return true;
+                else
+                    return false;
             }
             else
             {
-                list.Clear();
-                foreach (var i in index)
-                {
-                    if (maxValue == arr[i])
-                    {
-                        list.Add(i);
-                    }
-                    if (maxValue < arr[i])
-                    {
-                        list.Clear();
-                        maxValue = arr[i];
-                        list.Add(i);
-                    }
-                }
+                if (value1 < value2)
+                    return true;
+                else
+                    return false;
             }
-            index.Clear();
-            for (int i = 0; i < list.Count; i++)
-                index.Add(list[i]);
         }
     }
 }
