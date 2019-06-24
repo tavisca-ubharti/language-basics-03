@@ -42,7 +42,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
             var calorie = new int[protein.Length];
-            var result = new List<int>();
+            var dietList = new List<int>();
             for(int i=0;i<protein.Length;i++)
             {
                 calorie[i] = (protein[i] + carbs[i])*4 + fat[i]*9;
@@ -96,13 +96,12 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                         }
                     }
                 }
-                result.Add(index[0]);
+                dietList.Add(index[0]);
             }
             int[] diet = new int[dietPlans.Length];
-            result.CopyTo(diet);
-            result.Clear();
+            dietList.CopyTo(diet);
+            dietList.Clear();
             return diet;
-            throw new NotImplementedException();
         }
 
         private static void FindMinIndex(int[] arr, List<int> index)
