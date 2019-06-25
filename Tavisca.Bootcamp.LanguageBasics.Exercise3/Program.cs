@@ -50,7 +50,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             var index = new List<int>();
             foreach (var item in dietPlans)
             {
-                index.Clear();
+               index.Clear();
                if(string.IsNullOrWhiteSpace(item))
                 {
                     index.Clear();
@@ -62,33 +62,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                     {
                         if (index.Count == 1)
                             break;
-                        switch(ch)
-                        {
-                            case 'C':
-                                FindIndex(carbs, index,"max");
-                                break;
-                            case 'c':
-                                FindIndex(carbs, index,"min");
-                                break;
-                            case 'P':
-                                FindIndex(protein, index,"max");
-                                break;
-                            case 'p':
-                                FindIndex(protein, index,"min");
-                                break;
-                            case 'F':
-                                FindIndex(fat, index,"max");
-                                break;
-                            case 'f':
-                                FindIndex(fat, index,"min");
-                                break;
-                            case 'T':
-                                FindIndex(calorie, index,"max");
-                                break;
-                            case 't':
-                                FindIndex(calorie, index,"min");
-                                break;
-                        }
+                        UpdateIndexList(protein, carbs, fat, calorie, ch,index);
                     }
                 }
                 dietList.Add(index[0]);
@@ -99,69 +73,100 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             return diet;
         }
 
+        public static void UpdateIndexList(int[] protein, int[] carbs, int[] fat,int [] calorie,char ch,List<int> index)
+        {
+            switch (ch)
+            {
+                case 'C':
+                    FindIndex(carbs, index, "max");
+                    break;
+                case 'c':
+                    FindIndex(carbs, index, "min");
+                    break;
+                case 'P':
+                    FindIndex(protein, index, "max");
+                    break;
+                case 'p':
+                    FindIndex(protein, index, "min");
+                    break;
+                case 'F':
+                    FindIndex(fat, index, "max");
+                    break;
+                case 'f':
+                    FindIndex(fat, index, "min");
+                    break;
+                case 'T':
+                    FindIndex(calorie, index, "max");
+                    break;
+                case 't':
+                    FindIndex(calorie, index, "min");
+                    break;
+            }
+        }
+
         private static void FindIndex(int[] arr, List<int> index,string typeOfIndex)
         {
-            var list = new List<int>();
-            int value;
+            var indexList = new List<int>();
+            int arrayValue;
             if(typeOfIndex.Equals("min"))
             {
-                value = int.MaxValue;
+                arrayValue = int.MaxValue;
             }
             else
             {
-                value = int.MinValue;
+                arrayValue = int.MinValue;
             }
             if(index.Count==0)
             {
-                list.Clear();
+                indexList.Clear();
                 for(int i=0;i<arr.Length;i++)
                 {
-                    if(value == arr[i])
+                    if(arrayValue == arr[i])
                     {
-                        list.Add(i);
+                        indexList.Add(i);
                     }
-                    if(CheckValue(value, arr[i], typeOfIndex))
+                    if(CheckMaxMin(arrayValue, arr[i], typeOfIndex))
                     {
-                        list.Clear();
-                        value = arr[i];
-                        list.Add(i);
+                        indexList.Clear();
+                        arrayValue = arr[i];
+                        indexList.Add(i);
                     }
                 }
             }
             else
             {
-                list.Clear();
+                indexList.Clear();
                 foreach(var i in index)
                 {
-                    if (value == arr[i])
+                    if (arrayValue == arr[i])
                     {
-                        list.Add(i);
+                        indexList.Add(i);
                     }
-                    if (CheckValue(value,arr[i],typeOfIndex))
+                    if (CheckMaxMin(arrayValue,arr[i],typeOfIndex))
                     {
-                        list.Clear();
-                        value = arr[i];
-                        list.Add(i);
+                        indexList.Clear();
+                        arrayValue = arr[i];
+                        indexList.Add(i);
                     }
                 }
             }
             index.Clear();
-            for (int i = 0; i < list.Count; i++)
-                index.Add(list[i]);
+            for (int i = 0; i < indexList.Count; i++)
+                index.Add(indexList[i]);
         }
         
-        private static bool CheckValue(int value1,int value2,string operation)
+        private static bool CheckMaxMin(int arrayValue,int arrayElement,string operation)
         {
             if(operation.Equals("min"))
             {
-                if (value1 > value2)
+                if (arrayValue > arrayElement)
                     return true;
                 else
                     return false;
             }
             else
             {
-                if (value1 < value2)
+                if (arrayValue < arrayElement)
                     return true;
                 else
                     return false;
